@@ -4,11 +4,11 @@ const { createAlchemyWeb3 } = require("@alch/alchemy-web3");
 const API_URL = process.env.API_URL;
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
 const PUBLIC_KEY = process.env.PUBLIC_KEY;
-
+const contractAddress = process.env.CONTRACT_ADDRESS;
 const web3 = createAlchemyWeb3(API_URL);
 
 const contract = require("../artifacts/contracts/MyNFT.sol/MyNFT.json");
-const contractAddress = "0x184f131796737c4a19ae4b9c3217bdc171348054";
+
 
 const nftContract = new web3.eth.Contract(contract.abi, contractAddress);
 
@@ -20,7 +20,7 @@ async function mintNFT(tokenURI) {
     to: contractAddress,
     nonce: nonce,
     gas: 500000,
-    data: nftContract.methods.mintNFT(PUBLIC_KEY, tokenURI).encodeABI(),
+    data: nftContract.methods.mintNFT(PUBLIC_KEY, `ipfs://${tokenURI}`).encodeABI(),
   };
   const signPromise = web3.eth.accounts.signTransaction(tx, PRIVATE_KEY);
 
@@ -54,5 +54,5 @@ async function mintNFT(tokenURI) {
       console.log(" Promise failed:", err);
     });
 }
-const CID = "QmbjF4QqqDP8GC8WryiNrRbFPLEDo5LFWgH22S5RfniPSE";
-mintNFT(`ipfs://${CID}`);
+
+export {mintNFT};
