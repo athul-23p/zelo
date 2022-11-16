@@ -29,12 +29,12 @@ function App() {
   }
   return (
     <div className="App">
-      <form onSubmit={handleUpload}>
-        <input type='file' name='doc' onChange={handleChange}/>
-      <button onClick={handleUpload}>Upload</button>
+      <form onSubmit={handleUpload} enctype="multipart/form-data" p>
+        <input type="file" name="document" onChange={handleChange} />
+        <button onClick={handleUpload}>Upload</button>
       </form>
     </div>
-  )
+  );
 }
 
 export default App
